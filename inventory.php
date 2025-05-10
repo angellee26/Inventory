@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory List - AUXILIARY</title>
-    <link href="./css/inventory.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
     
 </head>
 <body>
@@ -18,10 +18,12 @@
     <div class="main-content">
         <h2>Inventory List</h2>
         <div class="top-bar">
-            <input type="text" id="searchInput" placeholder="Search Product Name or Item Number..." onkeyup="searchTable()">
-            <button class="export-btn" onclick="exportTableToCSV()">Export</button>
-            <button class="new-product-btn" onclick="openForm()">New Product</button>
-        </div>
+    <input type="text" id="searchInput" placeholder="Search Product Name or Item Number..." onkeyup="searchTable()">
+    <div class="button-group">
+        <button class="export-btn" onclick="exportTableToCSV()">Export</button>
+        <button class="new-product-btn" onclick="openForm()">New Product</button>
+    </div>
+</div>
         <table id="inventoryTable">
             <thead>
                 <tr>
