@@ -5,15 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory List - AUXILIARY</title>
     <link href="./css/style.css" rel="stylesheet">
-    
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </head>
 <body>
-    <div class="sidebar">
-        <h2>AUXILIARY</h2>
-        <a href="#">📊 Dashboard</a>
-        <a href="#">🧺 Inventory</a>
-        <a href="#">📦 Suppliers</a>
-        <a href="#">👤 User Profile</a>
+<div class="sidebar">
+        <div class="logo">AUXILIARY</div>
+        <a href="#" class="sidebar-icon"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="#" class="sidebar-icon"><i class="fas fa-basket-shopping"></i><span>Inventory</span></a>
+        <a href="#" class="sidebar-icon"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+        <a href="#" class="sidebar-icon"><i class="fas fa-user-circle"></i><span>User Profile</span></a>
+    </div>
+
+    <div class="header-bar">
+        <div class="header-left">
+            <h1 style="margin: 0; font-size: 20px;">Inventory List</h1>
+        </div>
+        <div class="header-right">
+            <i class="fas fa-bell icon"></i>
+            <i class="fas fa-user-circle icon"></i>
+            <button class="logout-btn">Logout</button>
+        </div>
     </div>
     <div class="main-content">
         <h2>Inventory List</h2>
@@ -43,14 +54,15 @@
 
     <div class="overlay" id="overlay" onclick="closeForm()"></div>
     <div class="form-popup" id="productForm">
-        <h3 id="formTitle">Add New Product</h3>
+    <span class="close-icon" onclick="closeForm()">&times;</span>
+    <h3 id="formTitle">Add New Product</h3>
         <input type="text" id="productName" placeholder="Product Name">
         <input type="text" id="itemNumber" placeholder="Item Number">
         <input type="text" id="manufacturer" placeholder="Manufacturer">
         <input type="text" id="category" placeholder="Category">
         <input type="number" id="quantity" placeholder="Quantity">
         <input type="date" id="expiryDate">
-        <select id="status">
+        <select id="status" placeholder="Status">
             <option value="active">Active</option>
             <option value="low">Low</option>
             <option value="out">Out of Stock</option>
