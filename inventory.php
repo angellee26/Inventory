@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
 <body>
-<div class="sidebar">
+    <div class="sidebar">
         <div class="logo">AUXILIARY</div>
         <a href="#" class="sidebar-icon"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
         <a href="#" class="sidebar-icon"><i class="fas fa-basket-shopping"></i><span>Inventory</span></a>
@@ -26,6 +26,7 @@
             <button class="logout-btn">Logout</button>
         </div>
     </div>
+
     <div class="main-content">
         <h2>Inventory List</h2>
         <div class="top-bar">
@@ -92,7 +93,7 @@
                 document.getElementById('status').value = cells[6].innerText.toLowerCase();
             }
         }
-
+        
         function closeForm() {
             editingRow = null;
             document.getElementById('productForm').style.display = 'none';
