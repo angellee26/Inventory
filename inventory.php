@@ -67,7 +67,7 @@
                         <td>{$row['Manufacturer']}</td>
                         <td>{$row['Category']}</td>
                         <td>{$row['Quantity']}</td>
-                        <td>{$row['Expiry Date']}</td>
+                        <td>{$row['Expiry']}</td>
                         <td><span class='$statusClass'>" . ucfirst($status) . "</span></td>
                         <td>
                             <button class='edit-btn' onclick='editRow(this)'>Edit</button>
