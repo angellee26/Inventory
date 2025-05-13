@@ -49,7 +49,35 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="inventoryBody"></tbody>
+            <tbody id="inventoryBody">
+                <?php
+                $conn = new mysqli("localhost", "root", "", "inventory_stock");
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+                $sql = "SELECT * FROM inventory";
+                $result = $conn->query($sql);
+
+                while ($row = $result->fetch_assoc()) {
+                    $status = strtolower($row['Status']);
+                    $statusClass = $status === 'active' ? 'status-active' : ($status === 'low' ? 'status-low' : 'status-out');
+                    echo "<tr>
+                        <td>{$row['Product Name']}</td>
+                        <td>{$row['Item Number']}</td>
+                        <td>{$row['Manufacturer']}</td>
+                        <td>{$row['Category']}</td>
+                        <td>{$row['Quantity']}</td>
+                        <td>{$row['Expiry Date']}</td>
+                        <td><span class='$statusClass'>" . ucfirst($status) . "</span></td>
+                        <td>
+                            <button class='edit-btn' onclick='editRow(this)'>Edit</button>
+                            <button class='delete-btn' onclick='deleteRow(this)'>Delete</button>
+                        </td>
+                    </tr>";
+                }
+                $conn->close();
+                ?>
+            </tbody>
         </table>
     </div>
 
@@ -57,50 +85,33 @@
     <div class="form-popup" id="productForm">
     <span class="close-icon" onclick="closeForm()">&times;</span>
     <h3 id="formTitle">Add New Product</h3>
-        <input type="text" id="productName" placeholder="Product Name">
-        <input type="text" id="itemNumber" placeholder="Item Number">
-        <input type="text" id="manufacturer" placeholder="Manufacturer">
-        <input type="text" id="category" placeholder="Category">
-        <input type="number" id="quantity" placeholder="Quantity">
-        <input type="date" id="expiryDate">
-        <select id="status" placeholder="Status">
-            <option value="active">Active</option>
-            <option value="low">Low</option>
-            <option value="out">Out of Stock</option>
-        </select>
-        <button id="formSubmitBtn" onclick="addProduct()">Add Product</button>
-        <button onclick="closeForm()">Cancel</button>
+        <form id="productForm" action="action_page.php" method="POST">
+            <input type="text" name="product_name" placeholder="Product Name" required>
+            <input type="text" name="item_number" placeholder="Item Number" required>
+            <input type="text" name="manufacturer" placeholder="Manufacturer" required>
+            <input type="text" name="category" placeholder="Category" required>
+            <input type="number" name="quantity" placeholder="Quantity" required>
+            <input type="date" name="expiry" required>
+            <select name="status" required>
+                <option value="active">Active</option>
+                <option value="low">Low</option>
+                <option value="out">Out of Stock</option>
+            </select>
+            <button type="submit">Add Product</button>
+            <button type="button" onclick="closeForm()">Cancel</button>
+        </form>
     </div>
 
     <script>
-        let editingRow = null;
-
-        function openForm(row = null) {
-            document.getElementById('productForm').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-            if (row) {
-                editingRow = row;
-                document.getElementById('formTitle').innerText = 'Edit Product';
-                document.getElementById('formSubmitBtn').innerText = 'Update Product';
-
-                const cells = row.children;
-                document.getElementById('productName').value = cells[0].innerText;
-                document.getElementById('itemNumber').value = cells[1].innerText;
-                document.getElementById('manufacturer').value = cells[2].innerText;
-                document.getElementById('category').value = cells[3].innerText;
-                document.getElementById('quantity').value = cells[4].innerText;
-                document.getElementById('expiryDate').value = cells[5].innerText;
-                document.getElementById('status').value = cells[6].innerText.toLowerCase();
-            }
-        }
-        
         function closeForm() {
-            editingRow = null;
             document.getElementById('productForm').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
-            document.getElementById('formTitle').innerText = 'Add New Product';
-            document.getElementById('formSubmitBtn').innerText = 'Add Product';
             document.getElementById('productForm').querySelectorAll('input, select').forEach(el => el.value = '');
+        }
+
+        function openForm() {
+            document.getElementById('productForm').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
         }
 
         function deleteRow(btn) {
@@ -109,32 +120,7 @@
         }
 
         function editRow(btn) {
-            const row = btn.parentElement.parentElement;
-            openForm(row);
-        }
-
-        function addProduct() {
-            const name = document.getElementById('productName').value;
-            const item = document.getElementById('itemNumber').value;
-            const manu = document.getElementById('manufacturer').value;
-            const cat = document.getElementById('category').value;
-            const qty = document.getElementById('quantity').value;
-            const exp = document.getElementById('expiryDate').value;
-            const stat = document.getElementById('status').value;
-            if (!name || !item || !manu || !cat || !qty || !exp || !stat) return alert("All fields required");
-
-            let statusClass = stat === 'active' ? 'status-active' : (stat === 'low' ? 'status-low' : 'status-out');
-            const newRowHtml = `<td>${name}</td><td>${item}</td><td>${manu}</td><td>${cat}</td><td>${qty}</td><td>${exp}</td><td><span class="${statusClass}">${stat.charAt(0).toUpperCase() + stat.slice(1)}</span></td><td><button class="edit-btn" onclick="editRow(this)">Edit</button><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>`;
-
-            if (editingRow) {
-                editingRow.innerHTML = newRowHtml;
-                editingRow = null;
-            } else {
-                const row = document.createElement('tr');
-                row.innerHTML = newRowHtml;
-                document.getElementById('inventoryBody').appendChild(row);
-            }
-            closeForm();
+            alert("Edit feature is frontend-only and does not sync with database.");
         }
 
         function searchTable() {
@@ -204,24 +190,6 @@
                 }
             }
         }
-
-        const defaultProducts = [
-            ['Matcha Milk Tea','MT001','GreenLeaf Co.','Beverage',35,'2025-12-15','active'],
-            ['Taro Milk Tea','MT002','BrewMasters Co.','Beverage',20,'2025-11-29','low'],
-            ['Brown Sugar Boba','BB001','SweetPearls Inc.','Toppings',100,'2025-10-10','active'],
-            ['Tapioca Pearls','TP001','SweetPearls Inc.','Toppings',0,'2025-09-25','out'],
-            ['Wintermelon Syrup','SY001','SweetNectar Co.','Syrup',15,'2025-12-05','low'],
-            ['Large Plastic Cups','CP001','PackIt Co.','Packaging',200,'2027-01-01','active'],
-            ['Sealing Film Roll','PK001','PackIt Co.','Packaging',20,'2026-06-30','active']
-        ];
-        window.onload = () => {
-            defaultProducts.forEach(p => {
-                const row = document.createElement('tr');
-                let statusClass = p[6] === 'active' ? 'status-active' : (p[6] === 'low' ? 'status-low' : 'status-out');
-                row.innerHTML = `<td>${p[0]}</td><td>${p[1]}</td><td>${p[2]}</td><td>${p[3]}</td><td>${p[4]}</td><td>${p[5]}</td><td><span class="${statusClass}">${p[6].charAt(0).toUpperCase() + p[6].slice(1)}</span></td><td><button class="edit-btn" onclick="editRow(this)">Edit</button><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>`;
-                document.getElementById('inventoryBody').appendChild(row);
-            });
-        };
     </script>
 </body>
 </html>
