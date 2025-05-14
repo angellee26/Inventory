@@ -142,12 +142,15 @@ th.sorted-desc::after {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 4%;
 }
 .top-bar input, .top-bar button {
+    
     padding: 10px;
     margin-right: 10px;
 }
 .export-btn, .new-product-btn {
+    
     background-color: #f4e3c5;
     border: none;
     padding: 10px 20px;
@@ -208,4 +211,50 @@ th.sorted-desc::after {
     flex-wrap: wrap;
     gap: 0px;
     align-items: center;
+}
+
+
+.center-container {
+    display: flex;
+    justify-content: center; /* Horizontal center */
+    align-items: center;     /* Vertical center */
+    height: 100vh;           /* Full viewport height */
+    width: 80vw;            /* Full viewport width */
+    border-radius: 5px;
+    border-width: 30px;
+}
+/*
+.status-msg-box {
+    background-color: #f5ebdd;
+    color: #5c4033;
+    border: 2px solid #a1866f;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 400px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+*/
+.status-msg-box {
+    background-color: #f5ebdd;
+    color: #5c4033;
+    border: 2px solid #a1866f;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.status-msg-box + .action {
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    background-color: #3b261d;
+    color: #fff3e5;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    max-width: 200px;
 }

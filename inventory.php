@@ -28,14 +28,15 @@
     </div>
 
     <div class="main-content">
-        <h2>Inventory List</h2>
+  
         <div class="top-bar">
-    <input type="text" id="searchInput" placeholder="Search Product Name or Item Number..." onkeyup="searchTable()">
-    <div class="button-group">
-        <button class="export-btn" onclick="exportTableToCSV()">Export</button>
-        <button class="new-product-btn" onclick="openForm()">New Product</button>
-    </div>
-</div>
+            <input type="text" id="searchInput" placeholder="Search Product Name or Item Number..." onkeyup="searchTable()">
+
+            <div class="button-group">
+                <button class="export-btn" onclick="exportTableToCSV()">Export</button>
+                <button class="new-product-btn" onclick="openForm()">New Product</button>
+            </div>
+        </div>
         <table id="inventoryTable">
             <thead>
                 <tr>
